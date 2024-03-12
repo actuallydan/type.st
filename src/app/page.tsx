@@ -1,112 +1,226 @@
+"use client";
+
+import { useEffect, useState, Fragment } from "react";
 import Image from "next/image";
+import {
+  ChevronDown,
+  ChevronRight,
+  ChevronUp,
+  ChevronLeft,
+} from "lucide-react";
+
+type KeyStruct = {
+  key: string;
+  alt: boolean;
+  shift: boolean;
+  code: string;
+  ctrl: boolean;
+};
 
 export default function Home() {
+  const [pressedKeys, setPressedKeys] = useState<KeyStruct[]>([]);
+
+  function handleKeyDown(ev: KeyboardEvent) {
+    ev.preventDefault();
+
+    if (ev.repeat) {
+      return;
+    }
+    const key: KeyStruct = {
+      key: ev.key,
+      alt: ev.altKey,
+      shift: ev.shiftKey,
+      code: ev.code,
+      ctrl: ev.ctrlKey,
+    };
+
+    // don't add the key twice
+    if (pressedKeys.some((k) => k.key !== ev.key)) {
+      return;
+    }
+
+    setPressedKeys((oldKeys) => {
+      return [...oldKeys, key];
+    });
+  }
+
+  function handleKeyUp(ev: KeyboardEvent) {
+    const newKeys = [...pressedKeys].filter((k: KeyStruct) => k.key !== ev.key);
+
+    setPressedKeys(newKeys);
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
+
+  const rows = [
+    [
+      { default: "Esc", shift: "", code: "Escape" },
+      { default: "F1", shift: "", code: "F1" },
+      { default: "F2", shift: "", code: "F2" },
+      { default: "F3", shift: "", code: "F3" },
+      { default: "F4", shift: "", code: "F4" },
+      { default: "F5", shift: "", code: "F5" },
+      { default: "F6", shift: "", code: "F6" },
+      { default: "F7", shift: "", code: "F7" },
+      { default: "F8", shift: "", code: "F8" },
+      { default: "F9", shift: "", code: "F9" },
+      { default: "F10", shift: "", code: "F10" },
+      { default: "F11", shift: "", code: "F11" },
+      { default: "F12", shift: "", code: "F12" },
+      { default: "?", shift: "", code: "" },
+      { default: "del", shift: "", code: "Delete" },
+      { default: "?", shift: "", code: "" },
+    ],
+    [
+      { default: "`", shift: "~", code: "Backquote" },
+      { default: "1", shift: "!", code: "Digit1" },
+      { default: "2", shift: "@", code: "Digit2" },
+      { default: "3", shift: "#", code: "Digit3" },
+      { default: "4", shift: "$", code: "Digit4" },
+      { default: "5", shift: "%", code: "Digit5" },
+      { default: "6", shift: "^", code: "Digit6" },
+      { default: "7", shift: "&", code: "Digit7" },
+      { default: "8", shift: "*", code: "Digit8" },
+      { default: "9", shift: "(", code: "Digit9" },
+      { default: "0", shift: ")", code: "Digit0" },
+      { default: "-", shift: "_", code: "Minus" },
+      { default: "=", shift: "+", code: "Equal" },
+      { default: "backspace", shift: "", code: "Backspace", span: 2 },
+      { default: "pgup", shift: "", code: "PageUp" },
+    ],
+    [
+      { default: "tab", shift: "", code: "Tab", span: 1 },
+      { default: "q", shift: "Q", code: "KeyQ" },
+      { default: "w", shift: "W", code: "KeyW" },
+      { default: "e", shift: "E", code: "KeyE" },
+      { default: "r", shift: "R", code: "KeyR" },
+      { default: "t", shift: "T", code: "KeyT" },
+      { default: "y", shift: "Y", code: "KeyY" },
+      { default: "u", shift: "U", code: "KeyU" },
+      { default: "i", shift: "I", code: "KeyI" },
+      { default: "o", shift: "O", code: "KeyO" },
+      { default: "p", shift: "P", code: "KeyP" },
+      { default: "[", shift: "{", code: "BracketLeft" },
+      { default: "]", shift: "}", code: "BracketRight" },
+      { default: "\\", shift: "|", code: "Backslash", span: 2 },
+      { default: "pgdn", shift: "", code: "PageDown" },
+    ],
+    [
+      { default: "caps", shift: "", code: "CapsLock", span: 1 },
+      { default: "a", shift: "A", code: "KeyA" },
+      { default: "s", shift: "S", code: "KeyS" },
+      { default: "d", shift: "D", code: "KeyD" },
+      { default: "f", shift: "F", code: "KeyF" },
+      { default: "g", shift: "G", code: "KeyG" },
+      { default: "h", shift: "H", code: "KeyH" },
+      { default: "j", shift: "J", code: "KeyJ" },
+      { default: "k", shift: "K", code: "KeyK" },
+      { default: "l", shift: "L", code: "KeyL" },
+      { default: ";", shift: ":", code: "Semicolon" },
+      { default: "'", shift: '"', code: "Quote" },
+      { default: "enter", shift: "", code: "Enter", span: 3 },
+      { default: "home", shift: "", code: "Home" },
+    ],
+    [
+      { default: "shift", shift: "", code: "ShiftLeft", span: 2 },
+      { default: "z", shift: "Z", code: "KeyZ" },
+      { default: "x", shift: "X", code: "KeyX" },
+      { default: "c", shift: "C", code: "KeyC" },
+      { default: "v", shift: "V", code: "KeyV" },
+      { default: "b", shift: "B", code: "KeyB" },
+      { default: "n", shift: "N", code: "KeyN" },
+      { default: "m", shift: "M", code: "KeyM" },
+      { default: ",", shift: "<", code: "Comma" },
+      { default: ".", shift: ">", code: "Period" },
+      { default: "/", shift: "?", code: "Slash" },
+      { default: "shift", shift: "", code: "ShiftRight", span: 2 },
+      {
+        default: "arrow_up",
+        shift: "",
+        code: "ArrowUp",
+        component: <ChevronUp />,
+      },
+      { default: "end", shift: "", code: "End" },
+    ],
+    [
+      { default: "ctrl", shift: "", code: "ControlLeft" },
+      { default: "alt", shift: "", code: "AltLeft" },
+      { default: "meta", shift: "", code: "MetaLeft" },
+      { default: "space", shift: "", code: "Space", span: 7 },
+      { default: "meta", shift: "", code: "MetaRight" },
+      { default: "fn", shift: "", code: "Fn" },
+      { default: "ctrl", shift: "", code: "ControlRight" },
+      {
+        default: "arrow_left",
+        shift: "",
+        code: "ArrowLeft",
+        component: <ChevronLeft />,
+      },
+      {
+        default: "arrow_down",
+        shift: "",
+        code: "ArrowDown",
+        component: <ChevronDown />,
+      },
+      {
+        default: "arrow_right",
+        shift: "",
+        code: "ArrowRight",
+        component: <ChevronRight />,
+      },
+    ],
+  ];
+
+  const pressedStyle = {
+    backgroundColor: "#333",
+    color: "#FFF",
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main className="min-p-2 py-24 max-p-24 w-full max-w-[1200px] m-auto">
+      {/* <p className="font-mono text-3xl">wioo</p> */}
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <div className="my-grid">
+        {rows.map((row, rowIndex) => {
+          let col = 0;
+          return (
+            <Fragment key={rowIndex}>
+              {row.map((key, colIndex) => {
+                const colStart = col + 1;
+                const colEnd = colStart + (key.span || 1);
+                col += key.span || 1;
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+                const IconComponent = key.component || null;
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+                const isPressed = pressedKeys.find(
+                  (k) => k.code === key.code || k.key === key.shift
+                );
+                return (
+                  <div
+                    key={key.default + "-" + colIndex}
+                    className="bg-white p-2 text-center black font-mono border rounded"
+                    style={{
+                      gridArea: `${rowIndex + 1} / ${colStart} / ${
+                        rowIndex + 1
+                      } / ${colEnd}`,
+                      ...(isPressed ? pressedStyle : {}),
+                    }}
+                  >
+                    {key.component ? IconComponent : key.default}
+                  </div>
+                );
+              })}
+            </Fragment>
+          );
+        })}
       </div>
     </main>
   );
