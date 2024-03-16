@@ -7,8 +7,8 @@ write stuff down as quickly as possible
 some wild typing and keyboard stuff
 
 ```
-echo "tp () { curl -F "c=@${1:--}" https://type.st/api/paste }" >> .zshrc`
-
+echo "tp () { curl -F "c=@${1:--}" https://type.st/api/paste }" >> ~/.zshrc
+source ~/.zshrc
 echo "sick" | tp
 ```
 

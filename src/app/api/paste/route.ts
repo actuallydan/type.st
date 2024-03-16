@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const id = Math.random().toString(16).replace(".", "");
 
-    const link = `https://type.st/p/${id}`;
+    const link = `https://type.st/p/${id}\n`;
 
     const c = formData.get("c");
 
