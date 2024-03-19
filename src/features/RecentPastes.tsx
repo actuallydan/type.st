@@ -15,7 +15,6 @@ export default function RecentPastes() {
     queryFn: () => {
       const history: string | null = window.localStorage.getItem("history");
 
-      console.log(history);
       if (history) {
         return fetchRecentsFromIds(JSON.parse(history));
       }
@@ -34,7 +33,6 @@ export default function RecentPastes() {
     return responses;
   };
 
-  console.log(data, rest);
   if (isLoading || !data) {
     return (
       <aside className="w-48">
