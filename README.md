@@ -11,6 +11,8 @@ echo "tp () { curl -F "c=@${1:--}" https://type.st/api/paste }" >> ~/.zshrc
 source ~/.zshrc
 echo "sick" | tp
 ```
+<img width="1078" alt="type.st code paste page screenshot" src="https://github.com/actuallydan/type.st/assets/16323009/8fcec761-8454-4c86-a6a9-9478743ef1f6">
+
 
 explore your goofy keyboard
 https://type.st/keys
