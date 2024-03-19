@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
@@ -30,6 +29,12 @@ export default function RecentPastes() {
     let res = await fetch("/api/getMany?ids=" + idString);
     let { responses } = await res.json();
 
+    // given array of id strings, remove from localstorage the responses dont exist in the array
+    localStorage.setItem(
+      "history",
+      JSON.stringify(responses.map((r: Recent) => r.id))
+    );
+
     return responses;
   };
 
@@ -56,7 +61,7 @@ export default function RecentPastes() {
               {recent.id}
             </p>
 
-            <p className="font-mono px-2 py-1 text-xs rounded max-h-16 overflow-hidden whitespace-pre text-ellipsis">
+            <p className="font-mono py-1 text-xs rounded max-h-16 overflow-hidden whitespace-pre text-ellipsis">
               {recent.text}
             </p>
           </div>
