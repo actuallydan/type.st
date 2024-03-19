@@ -1,4 +1,5 @@
 import redis from "@/utils/redis";
+import RecentPastes from "@/features/RecentPastes";
 
 export default async function PastePage({
   params,
@@ -11,8 +12,8 @@ export default async function PastePage({
 
   if (!data) {
     return (
-      <div className="min-w-[100dvw] min-h-[100dvh] bg-gray-100">
-        <main className="p-4 py-8 w-full max-w-[1200px] m-auto h-[100dvh]">
+      <div className="p-4 py-8 max-w-[100dvw] min-h-[100dvh] bg-gray-100 flex box-border">
+        <main className="flex-grow h-[100dvh] pr-2">
           <pre className="w-full h-full border-none font-sans text-gray-700 rounded-lg resize transition-all bg-white p-4 active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none">
             no notes for id:{" "}
             <span className="font-mono bg-gray-200 px-2 py-1 text-sm rounded">
@@ -20,17 +21,19 @@ export default async function PastePage({
             </span>
           </pre>
         </main>
+        <RecentPastes />
       </div>
     );
   }
 
   return (
-    <div className="min-w-[100dvw] min-h-[100dvh] bg-gray-100">
-      <main className="p-4 py-8 w-full max-w-[1200px] m-auto h-[100dvh]">
+    <div className="p-4 py-8 max-w-[100dvw] min-h-[100dvh] bg-gray-100 flex box-border">
+      <main className="flex-grow h-[100dvh] pr-2">
         <pre className="w-full h-full border-none font-mono text-gray-700 rounded-lg resize transition-all bg-white p-4 active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none">
           {data}
         </pre>
       </main>
+      <RecentPastes />
     </div>
   );
 }
