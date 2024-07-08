@@ -35,6 +35,10 @@ export async function POST(req: Request) {
 
     await redis.set(id, text);
 
+    if (formData.get("internal")) {
+      return Response.redirect(link);
+    }
+
     return new NextResponse(link);
   } catch (err: any) {
     console.error(err);

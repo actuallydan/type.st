@@ -24,7 +24,7 @@ export default function History() {
 
       window.localStorage.setItem("history", JSON.stringify(entries));
     }
-  }, []);
+  }, [params.id]);
 
   return null;
 }

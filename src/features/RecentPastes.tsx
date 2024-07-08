@@ -41,7 +41,7 @@ export default function RecentPastes() {
   if (isLoading || !data) {
     return (
       <aside className="w-48">
-        <div className="w-full border-none mb-2 font-sans text-gray-700 rounded-lg resize transition-all bg-white p-4 px-6 active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none">
+        <div className="w-full border-none mb-2 font-sans text-gray-700 rounded-lg transition-all bg-white p-4 px-6 active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none">
           <h2>History</h2>
         </div>
       </aside>
@@ -50,21 +50,23 @@ export default function RecentPastes() {
 
   return (
     <aside className="w-48">
-      <div className="w-full border-none mb-2 font-sans text-gray-700 rounded-lg resize transition-all bg-white p-4 px-6 active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none">
+      <div className="w-full border-none mb-2 font-sans text-gray-700 rounded-lg transition-all bg-white p-4 px-6 active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none">
         <h2>History</h2>
       </div>
 
       {data.map((recent: Recent) => (
-        <Link key={recent.id} href={`${window.location.origin}/p/${recent.id}`}>
-          <div className="hover:translate-y-[-0.25rem] hover:shadow-md hover:bg-purple-100 w-full border-none mb-2 font-sans text-gray-700 rounded-lg resize transition-all bg-white p-4 px-6 active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none">
-            <p className="font-mono bg-gray-800 px-2 py-1 text-sm rounded text-white">
-              {recent.id}
-            </p>
+        <Link
+          key={recent.id}
+          href={`${window.location.origin}/p/${recent.id}`}
+          className="flex flex-col hover:translate-y-[-0.25rem] hover:shadow-md hover:bg-purple-100 w-full border-none mb-2 font-sans text-gray-700 rounded-lg transition-all bg-white p-4 px-6 active:shadow-lg focus-visible:outline-none focus:translate-y-[-0.25rem] focus:shadow-md focus:bg-purple-100"
+        >
+          <p className="font-mono bg-gray-800 px-2 py-1 text-sm rounded text-white">
+            {recent.id}
+          </p>
 
-            <p className="font-mono py-1 text-xs rounded max-h-16 overflow-hidden whitespace-pre text-ellipsis">
-              {recent.text}
-            </p>
-          </div>
+          <p className="font-mono py-1 text-xs rounded max-h-16 overflow-hidden whitespace-pre text-ellipsis">
+            {recent.text}
+          </p>
         </Link>
       ))}
     </aside>

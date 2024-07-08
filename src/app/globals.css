@@ -8,11 +8,35 @@
   }
 }
 
-
 .my-grid {
-    display: grid;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    grid-column-gap: 4px;
-    grid-row-gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}
+
+.inverted-border-radius::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  top: -0.25rem;
+  height: 1rem;
+  width: 0.5rem;
+  border-top-left-radius: 25px;
+  box-shadow: 0 -0.5rem 0 0 rgb(243 244 246);
+  rotate: 90deg;
+  right: 8.4rem;
+}
+.inverted-border-radius::after {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  top: 3.125rem;
+  height: 1rem;
+  width: 0.5rem;
+  border-top-left-radius: 25px;
+  box-shadow: 0 -0.5rem 0 0 rgb(243 244 246);
+  rotate: 90deg;
+  right: 0.5rem;
 }
