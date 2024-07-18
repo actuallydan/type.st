@@ -19,7 +19,7 @@ export default function Text({ data }: { data: string }) {
     <main className="bg-white rounded-lg mr-2 max-h-[90dvh] flex-grow h-auto relative flex flex-col">
       <div className="flex flex-row justify-end items-start h-16">
         <div
-          className="bg-gray-100 p-2 pt-0 rounded-lg w-max z-10 inverted-border-radius"
+          className="bg-gray-100 p-2 pt-0 pr-0 rounded-lg w-max z-10 inverted-border-radius-before inverted-border-radius-after"
           style={{ borderTopLeftRadius: 0, borderBottomRightRadius: 0 }}
         >
           <nav className="bg-white px-4 py-2 rounded-md flex items-center justify-between">

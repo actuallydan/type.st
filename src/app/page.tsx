@@ -6,9 +6,9 @@ export default function Home() {
       <main className="p-4 py-8 w-full max-w-[1200px] m-auto h-[100dvh]">
         <form action={"/api/paste"} method="POST" spellCheck={false}>
           <div className="relative  w-full h-full rounded-lg">
-            <div className="flex flex-row justify-end items-start h-16">
+            <div className="flex flex-row justify-end items-start h-16 relative">
               <div
-                className="bg-gray-100 p-2 pt-0 rounded-lg w-max z-10 inverted-border-radius"
+                className="bg-gray-100 p-2 pt-0 pr-0 rounded-lg w-max z-10 inverted-border-radius-before inverted-border-radius-after"
                 style={{
                   borderTopLeftRadius: 0,
                   borderBottomRightRadius: 0,
