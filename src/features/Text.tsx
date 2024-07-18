@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { Check, Clipboard } from "lucide-react";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import { Submission } from "@/app/types/post";
 
-export default function Text({ data }: { data: string }) {
+export default function Text({ data }: { data: Submission }) {
   const [showCopy, setShowCopy] = useState(true);
 
   const copy = () => {
-    navigator.clipboard.writeText(data);
+    navigator.clipboard.writeText(data.text);
     setShowCopy(false);
 
     setTimeout(() => {
@@ -23,10 +24,6 @@ export default function Text({ data }: { data: string }) {
           style={{ borderTopLeftRadius: 0, borderBottomRightRadius: 0 }}
         >
           <nav className="bg-white px-4 py-2 rounded-md flex items-center justify-between">
-            {/*  */}
-            {/* <button className="rounded-sm border-gray-300 border mx-1 p-1">
-              <Clipboard size={20} className="text-gray-800" />
-            </button> */}
             <button
               className="rounded-md border-gray-200 border mx-1 p-1 hover:bg-purple-300 transition-all flex items-center justify-center"
               onClick={copy}
@@ -40,7 +37,6 @@ export default function Text({ data }: { data: string }) {
                 {showCopy ? "copy" : "copied!"}
               </span>
             </button>
-            {/*  */}
           </nav>
         </div>
       </div>
@@ -49,7 +45,7 @@ export default function Text({ data }: { data: string }) {
         universal
         className="flex-grow max-h-[90dvh] max-w-full border-none font-mono text-gray-700 rounded-lg transition-all bg-white active:outline-none active:shadow-lg focus:shadow-lg focus-visible:outline-none whitespace-pre"
       >
-        <div className="m-4">{data}</div>
+        <div className="m-4">{data.text}</div>
       </Scrollbars>
     </main>
   );

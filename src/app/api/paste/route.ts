@@ -33,7 +33,12 @@ export async function POST(req: Request) {
       text = await file.text();
     }
 
-    await redis.set(id, text);
+    const submission = {
+      timestamp: Date.now(),
+      text,
+    };
+
+    await redis.set(id, JSON.stringify(submission));
 
     if (formData.get("internal")) {
       return Response.redirect(link);

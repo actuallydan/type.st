@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import redis from "@/utils/redis";
+import { Submission } from "@/app/types/post";
 
 export async function GET(req: Request) {
   try {
@@ -16,13 +17,20 @@ export async function GET(req: Request) {
       throw Error("no ids to fetch");
     }
 
-    const responses: { id: string; text: string }[] = [];
+    const responses: { id: string; submission: Submission }[] = [];
 
     for (let id of ids) {
       let res = await redis.get(id);
 
       if (typeof res === "string") {
-        responses.push({ id, text: res });
+        // res can either be a stringified Submission or a string
+        // if it's a string, push it as is, otherwise parse it
+        try {
+          const parsed = JSON.parse(res) as Submission;
+          responses.push({ id, submission: parsed });
+        } catch (err) {
+          responses.push({ id, submission: { text: res, timestamp: null } });
+        }
       }
     }
 

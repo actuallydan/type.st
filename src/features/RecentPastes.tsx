@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
+import { Submission } from "@/app/types/post";
 
 type Recent = {
   id: string;
-  text: string;
+  submission: Submission;
 };
 
 export default function RecentPastes() {
@@ -63,9 +64,13 @@ export default function RecentPastes() {
           <p className="font-mono bg-gray-800 px-2 py-1 text-sm rounded text-white">
             {recent.id}
           </p>
-
+          {recent.submission.timestamp ? (
+            <p className="font-mono  px-2 py-1 text-xs  text-gray-400">
+              {recent.submission.timestamp}
+            </p>
+          ) : null}
           <p className="font-mono py-1 text-xs rounded max-h-16 overflow-hidden whitespace-pre text-ellipsis">
-            {recent.text}
+            {recent.submission.text}
           </p>
         </Link>
       ))}

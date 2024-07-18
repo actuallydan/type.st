@@ -1,6 +1,7 @@
 import Text from "@/features/Text";
 import redis from "@/utils/redis";
 import RecentPastes from "@/features/RecentPastes";
+import { Submission } from "@/app/types/post";
 
 export default async function PastePage({
   params,
@@ -9,7 +10,7 @@ export default async function PastePage({
 }) {
   const { id } = params;
 
-  const data: string = (await redis.get(id)) || "";
+  let data: string | Submission | null = await redis.get(id);
 
   if (!data) {
     return (
@@ -25,6 +26,10 @@ export default async function PastePage({
         <RecentPastes />
       </div>
     );
+  }
+
+  if (typeof data == "string") {
+    data = { text: data, timestamp: null };
   }
 
   return (
