@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { Submission } from "@/app/types/post";
+import { timeAgo } from "@/utils/time";
 
 type Recent = {
   id: string;
@@ -10,7 +11,7 @@ type Recent = {
 };
 
 export default function RecentPastes() {
-  const { data, error, isLoading, ...rest } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["get-history"],
     queryFn: () => {
       const history: string | null = window.localStorage.getItem("history");
@@ -65,8 +66,8 @@ export default function RecentPastes() {
             {recent.id}
           </p>
           {recent.submission.timestamp ? (
-            <p className="font-mono  px-2 py-1 text-xs  text-gray-400">
-              {recent.submission.timestamp}
+            <p className="font-mono  px-1 py-1 text-xs  text-gray-400">
+              {timeAgo(recent.submission.timestamp)}
             </p>
           ) : null}
           <p className="font-mono py-1 text-xs rounded max-h-16 overflow-hidden whitespace-pre text-ellipsis">

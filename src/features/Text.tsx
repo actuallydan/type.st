@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Check, Clipboard } from "lucide-react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { Submission } from "@/app/types/post";
+import { timeAgo } from "@/utils/time";
 
 export default function Text({ data, id }: { data: Submission; id: string }) {
   const [showCopy, setShowCopy] = useState(true);
@@ -15,28 +16,6 @@ export default function Text({ data, id }: { data: Submission; id: string }) {
       setShowCopy(true);
     }, 1500);
   };
-
-  function timeAgo(input: number) {
-    const date = new Date(input);
-    const formatter = new Intl.RelativeTimeFormat("en");
-    const ranges = [
-      ["years", 3600 * 24 * 365],
-      ["months", 3600 * 24 * 30],
-      ["weeks", 3600 * 24 * 7],
-      ["days", 3600 * 24],
-      ["hours", 3600],
-      ["minutes", 60],
-      ["seconds", 1],
-    ] as const;
-    const secondsElapsed = (date.getTime() - Date.now()) / 1000;
-
-    for (const [rangeType, rangeVal] of ranges) {
-      if (rangeVal < Math.abs(secondsElapsed)) {
-        const delta = secondsElapsed / rangeVal;
-        return formatter.format(Math.round(delta), rangeType);
-      }
-    }
-  }
 
   return (
     <main className="bg-white rounded-lg mr-2 max-h-[90dvh] flex-grow h-auto relative flex flex-col">

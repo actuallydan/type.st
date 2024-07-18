@@ -21,16 +21,15 @@ export async function GET(req: Request) {
 
     for (let id of ids) {
       let res = await redis.get(id);
-
+      // res can either be a stringified Submission or a string
+      // if it's a string, push it as is, otherwise parse it
       if (typeof res === "string") {
-        // res can either be a stringified Submission or a string
-        // if it's a string, push it as is, otherwise parse it
-        try {
-          const parsed = JSON.parse(res) as Submission;
-          responses.push({ id, submission: parsed });
-        } catch (err) {
-          responses.push({ id, submission: { text: res, timestamp: null } });
-        }
+        responses.push({ id, submission: { text: res, timestamp: null } });
+      }
+
+      if (typeof res === "object") {
+        const parsed = res as Submission;
+        responses.push({ id, submission: parsed });
       }
     }
 
