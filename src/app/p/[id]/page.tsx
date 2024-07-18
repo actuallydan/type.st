@@ -34,7 +34,7 @@ export default async function PastePage({
 
   return (
     <div className="p-4 py-8 min-h-[100dvh] bg-gray-100 flex box-border">
-      <Text data={data} />
+      <Text data={data} id={id} />
       <RecentPastes />
     </div>
   );
